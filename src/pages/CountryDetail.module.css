@@ -1,0 +1,99 @@
+.wrapper {
+  max-width: 1500px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+  column-gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  column-gap: 3rem;
+  margin: 0 2rem;
+}
+.details p {
+  margin-bottom: 0.5rem;
+}
+@media screen and (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 2rem;
+  }
+  .countryName {
+    margin-top: 2rem;
+  }
+  .backDiv {
+    margin-top: 5rem;
+  }
+}
+
+.borders {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.countryName {
+  grid-column: 1 /-1;
+  display: flex;
+  align-items: center;
+  /* margin-left: 2rem; */
+}
+
+.img {
+  display: flex;
+  align-items: center;
+}
+.all {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.darkMode {
+  color: white;
+}
+
+.detailsLeft,
+.detailsRight {
+  display: flex;
+  flex-direction: column;
+}
+.detailsLeft span,
+.detailsRight span {
+  margin-bottom: 1rem;
+}
+.back {
+  text-decoration: none;
+  color: black;
+  padding: 0.7rem 2rem 0.7rem 3rem;
+  display: flex;
+  align-items: flex-start;
+  margin: 2rem 0 2rem 2rem;
+  box-shadow: 0px 0px 10px 0px rgb(66 68 90);
+  border-radius: 0.2rem;
+}
+
+.backDiv {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin: 0 auto;
+  margin-top: 5rem;
+  width: 100%;
+}
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 3.5rem;
+  transform: translateY(-50%);
+  color: #888;
+}

@@ -1,0 +1,36 @@
+header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: clamp(1rem, 3vw, 3rem);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  box-shadow: 0px 0px 10px -5px rgb(66 68 90);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: white;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 1.2rem;
+  min-width: max-content;
+}
+.modeText {
+  font-weight: 600;
+  min-width: max-content;
+  margin-left: 0.5rem;
+}
+.mode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon {
+  color: white;
+}
+.darkmode {
+  background-color: hsl(209, 23%, 22%);
+  color: white;
+}
