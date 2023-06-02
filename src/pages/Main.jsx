@@ -6,6 +6,7 @@ import Select from "react-select";
 import { SlMagnifier } from "react-icons/sl";
 import { DarkModeContext } from "../components/DarkModeContext";
 import { useContext } from "react";
+
 const Main = () => {
   const API_URL_ALL = "https://restcountries.com/v3.1/all";
   const countriesData = useData(API_URL_ALL);
@@ -44,6 +45,26 @@ const Main = () => {
       : true;
     return nameMatch && regionMatch;
   });
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      background: darkMode ? "hsl(209, 23%, 22%)" : "white",
+      borderRadius: "0.5rem",
+      color: darkMode ? "white" : "gray",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: darkMode ? "white" : "gray",
+    }),
+    option: (provided) => ({
+      ...provided,
+      color: darkMode ? "white" : "gray",
+      background: darkMode ? "hsl(209, 23%, 22%)" : "white",
+      "&:hover": {
+        background: darkMode ? "#373C49" : "",
+      },
+    }),
+  };
 
   return (
     <>
@@ -65,6 +86,7 @@ const Main = () => {
             options={options}
             placeholder="Filter by region"
             className={styles.select}
+            styles={customStyles}
           />
         </div>
       </div>

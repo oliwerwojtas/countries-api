@@ -8,7 +8,6 @@ const useData = (API_URL) => {
       try {
         const response = await fetch(API_URL);
         const jsonData = await response.json();
-        console.log(jsonData);
         setData(jsonData);
       } catch (error) {
         console.error("Error fetching data:", error);
