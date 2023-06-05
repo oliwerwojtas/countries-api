@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import useData from "../hooks/useData";
-import CountryCard from "../components/CountryCard";
+import { useData } from "../hooks/useData";
+import { CountryCard } from "../components/CountryCard";
 import styles from "./Main.module.css";
-import Select from "react-select";
 import { SlMagnifier } from "react-icons/sl";
 import { DarkModeContext } from "../components/DarkModeContext";
 import { useContext } from "react";
 
-const Main = () => {
+export const Main = () => {
   const API_URL_ALL = "https://restcountries.com/v3.1/all";
   const countriesData = useData(API_URL_ALL);
   const [searchText, setSearchText] = useState("");
@@ -16,26 +15,34 @@ const Main = () => {
   const { darkMode } = useContext(DarkModeContext);
   useEffect(() => {
     if (countriesData) {
-      const regions = countriesData.map((country) => country.region.toLowerCase());
-      const uniqueRegions = [...new Set(regions)];
-
-      const dynamicOptions = [
-        { value: "", label: "All Regions" },
-        ...uniqueRegions.map((region) => ({
-          value: region,
-          label: region.charAt(0).toUpperCase() + region.slice(1),
-        })),
-      ];
-
-      setOptions(dynamicOptions);
+      setOptions(generateOptions(countriesData));
     }
   }, [countriesData]);
+
+  const generateOptions = (countriesData) => {
+    if (!countriesData) {
+      return [];
+    }
+
+    const uniqueRegions = [
+      ...new Set(countriesData.map((country) => country.region.toLowerCase())),
+    ];
+
+    return [
+      { value: "", label: "All Regions" },
+      ...uniqueRegions.map((region) => ({
+        value: region,
+        label: region.charAt(0).toUpperCase() + region.slice(1),
+        "data-cy": `region-option-${region.toLowerCase()}`,
+      })),
+    ];
+  };
 
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
   };
-  const handleRegionFilterChange = (selectedOption) => {
-    setRegionFilter(selectedOption ? selectedOption.value : "");
+  const handleRegionFilterChange = (event) => {
+    setRegionFilter(event.target.value);
   };
 
   const filteredCountries = countriesData?.filter((country) => {
@@ -45,26 +52,6 @@ const Main = () => {
       : true;
     return nameMatch && regionMatch;
   });
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      background: darkMode ? "hsl(209, 23%, 22%)" : "white",
-      borderRadius: "0.5rem",
-      color: darkMode ? "white" : "gray",
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: darkMode ? "white" : "gray",
-    }),
-    option: (provided) => ({
-      ...provided,
-      color: darkMode ? "white" : "gray",
-      background: darkMode ? "hsl(209, 23%, 22%)" : "white",
-      "&:hover": {
-        background: darkMode ? "#373C49" : "",
-      },
-    }),
-  };
 
   return (
     <>
@@ -72,6 +59,7 @@ const Main = () => {
         <div className={styles.inputDiv}>
           <SlMagnifier className={`${styles.searchIcon} ${darkMode ? styles.darkMode : ""}`} />
           <input
+            data-cy="search-input"
             type="text"
             value={searchText}
             onChange={handleInputChange}
@@ -80,19 +68,16 @@ const Main = () => {
           />
         </div>
         <div className={styles.select}>
-          <Select
-            value={options.find((option) => option.value === regionFilter)} // Ustawienie początkowej wartości selectedOption
-            onChange={handleRegionFilterChange}
-            options={options}
-            placeholder="Filter by region"
-            className={styles.select}
-            styles={customStyles}
-          />
+          <select data-cy="region-select" value={regionFilter} onChange={handleRegionFilterChange}>
+            {options.map((option) => (
+              <option key={option.value} value={option.value} data-cy={option["data-cy"]}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       <CountryCard countriesData={filteredCountries} />
     </>
   );
 };
-
-export default Main;

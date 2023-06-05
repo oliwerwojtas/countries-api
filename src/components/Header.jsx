@@ -4,10 +4,11 @@ import { BsMoon } from "react-icons/bs";
 import { BsMoonFill } from "react-icons/bs";
 import { useContext } from "react";
 import { DarkModeContext } from "./DarkModeContext";
-const Header = () => {
+
+export const Header = () => {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
   return (
-    <header className={`${styles.header} ${darkMode ? styles.darkmode : ""}`}>
+    <header data-cy="header" className={`${styles.header} ${darkMode ? styles.darkmode : ""}`}>
       <div>
         <p className={styles.text}>Where is the world?</p>
       </div>
@@ -19,5 +20,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

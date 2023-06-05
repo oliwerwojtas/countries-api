@@ -1,11 +1,11 @@
 import styles from "./CountryDetail.module.css";
-import useData from "../hooks/useData";
+import { useData } from "../hooks/useData";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../components/DarkModeContext";
 import { useContext } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-const CountryDetail = () => {
+export const CountryDetail = () => {
   const API_URL_ALL = "https://restcountries.com/v3.1/all";
   const countriesData = useData(API_URL_ALL);
   const { name } = useParams();
@@ -23,7 +23,7 @@ const CountryDetail = () => {
   const currencies = Object.values(country.currencies[currenciesKey]);
   const languages = Object.values(country.languages);
   return (
-    <div className={styles.all}>
+    <div className={styles.all} data-cy="country-detail">
       <div className={styles.backDiv}>
         <AiOutlineArrowLeft className={styles.searchIcon} />
         <Link to="/" className={styles.back}>
@@ -88,5 +88,3 @@ const CountryDetail = () => {
     </div>
   );
 };
-
-export default CountryDetail;

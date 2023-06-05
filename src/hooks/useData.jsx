@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useData = (API_URL) => {
+export const useData = (API_URL) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -19,5 +19,3 @@ const useData = (API_URL) => {
 
   return data;
 };
-
-export default useData;
