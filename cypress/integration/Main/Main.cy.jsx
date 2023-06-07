@@ -20,10 +20,29 @@ describe("<Main /> rendering", () => {
   });
 
   it("selects a region and displays matching countries", () => {
-    const options = ["All Regions", "Europe", "Asia", "Africa", "Oceania", "Americas", "Antarctic"];
-    const selectedRegion = Cypress._.sample(options);
-    cy.get("[data-cy='region-select']").select(selectedRegion);
-    cy.get("[data-cy='country-card']").should("exist");
-    cy.get("[data-cy='country-card']").should("have.length.greaterThan", 0);
+    const categories = [
+      "All Regions",
+      "Europe",
+      "Asia",
+      "Africa",
+      "Oceania",
+      "Americas",
+      "Antarctic",
+    ];
+    cy.get("[data-cy='region-select']")
+      .find("input")
+      .then((input) => {
+        cy.wrap(input).clear();
+        cy.wrap(input).focus();
+
+        categories.forEach((category) => {
+          cy.wrap(input).type(`${category}{enter}`, { force: true });
+          cy.get('[data-cy="country-card"]')
+            .children()
+            .should((country) => {
+              expect(country).to.have.length.greaterThan(0);
+            });
+        });
+      });
   });
 });

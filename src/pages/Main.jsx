@@ -5,6 +5,7 @@ import styles from "./Main.module.css";
 import { SlMagnifier } from "react-icons/sl";
 import { DarkModeContext } from "../components/DarkModeContext";
 import { useContext } from "react";
+import Select from "react-select";
 
 export const Main = () => {
   const API_URL_ALL = "https://restcountries.com/v3.1/all";
@@ -37,12 +38,31 @@ export const Main = () => {
       })),
     ];
   };
-
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      background: darkMode ? "hsl(209, 23%, 22%)" : "white",
+      borderRadius: "0.5rem",
+      color: darkMode ? "white" : "gray",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: darkMode ? "white" : "gray",
+    }),
+    option: (provided) => ({
+      ...provided,
+      color: darkMode ? "white" : "gray",
+      background: darkMode ? "hsl(209, 23%, 22%)" : "white",
+      "&:hover": {
+        background: darkMode ? "#373C49" : "",
+      },
+    }),
+  };
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
   };
-  const handleRegionFilterChange = (event) => {
-    setRegionFilter(event.target.value);
+  const handleRegionFilterChange = (selectedOption) => {
+    setRegionFilter(selectedOption ? selectedOption.value : "");
   };
 
   const filteredCountries = countriesData?.filter((country) => {
@@ -67,14 +87,15 @@ export const Main = () => {
             className={`${darkMode ? styles.darkMode : ""}`}
           />
         </div>
-        <div className={styles.select}>
-          <select data-cy="region-select" value={regionFilter} onChange={handleRegionFilterChange}>
-            {options.map((option) => (
-              <option key={option.value} value={option.value} data-cy={option["data-cy"]}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+        <div className={styles.select} data-cy="region-select">
+          <Select
+            value={options.find((option) => option.value === regionFilter)} // Ustawienie początkowej wartości selectedOption
+            onChange={handleRegionFilterChange}
+            options={options}
+            placeholder="Filter by region"
+            className={styles.select}
+            styles={customStyles}
+          />
         </div>
       </div>
       <CountryCard countriesData={filteredCountries} />
